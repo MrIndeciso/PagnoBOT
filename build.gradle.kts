@@ -6,6 +6,8 @@ plugins {
 group = "com.github.mrindeciso"
 version = "1.0-SNAPSHOT"
 
+defaultTasks("clean", "build")
+
 repositories {
     mavenCentral()
     jcenter()
@@ -33,5 +35,8 @@ tasks {
     }
     compileTestKotlin {
         kotlinOptions.jvmTarget = "1.8"
+    }
+    val stage by registering {
+        dependsOn("build")
     }
 }
