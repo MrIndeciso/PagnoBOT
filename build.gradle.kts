@@ -1,10 +1,14 @@
 plugins {
     java
     kotlin("jvm") version "1.3.72"
+    application
+    id("com.heroku.sdk.heroku-gradle") version "1.0.4"
 }
 
 group = "com.github.mrindeciso"
 version = "1.0-SNAPSHOT"
+
+val mainClassName = "com.github.mrindeciso.pagnobot.App"
 
 defaultTasks("clean", "build")
 

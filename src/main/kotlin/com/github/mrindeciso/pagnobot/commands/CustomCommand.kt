@@ -1,23 +1,17 @@
 package com.github.mrindeciso.pagnobot.commands
 
-import com.github.mrindeciso.pagnobot.utils.sendChatMessage
-import com.github.philippheuer.events4j.simple.domain.EventSubscriber
-import com.github.twitch4j.chat.events.channel.ChannelMessageEvent
-import org.koin.core.KoinComponent
-import org.koin.core.inject
-import org.mapdb.HTreeMap
+import com.github.mrindeciso.pagnobot.commandParsing.models.Command
 
-class CustomCommand: KoinComponent {
+class CustomCommand(command: Command) : GenericCommand() {
 
-    private val dbMap: HTreeMap<String, String> by inject()
-
-    @EventSubscriber
-    fun handleEvent(event: ChannelMessageEvent) {
-        if (event.message.startsWith('!')) {
-            val command = event.message.split(' ')[0].removePrefix("!")
-            if (dbMap.containsKey(command)) {
-                event.sendChatMessage(dbMap[command])
-            }
+    init {
+        if (aliasMap.containsKey(command.commandRoot.command)) {
+            val commandId = aliasMap[command.commandRoot.command]
+            val commandText = commandMap[commandId]
+            commandText?.let { sendText(it) }
+        } else {
+            println(aliasMap.keys.toString())
+            println(commandMap.values.toString())
         }
     }
 
